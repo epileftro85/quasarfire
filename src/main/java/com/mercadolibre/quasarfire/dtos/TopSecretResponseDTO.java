@@ -1,15 +1,15 @@
 package com.mercadolibre.quasarfire.dtos;
 
 public class TopSecretResponseDTO {
-    private double[] coordinates;
+    private CoordinatesDTO position;
     private String message;
 
-    public double[] getCoordinates() {
-        return coordinates;
+    public CoordinatesDTO getPosition() {
+        return position;
     }
 
-    public void setCoordinates(double[] coordinates) {
-        this.coordinates = coordinates;
+    public void setPosition(CoordinatesDTO position) {
+        this.position = position;
     }
 
     public String getMessage() {

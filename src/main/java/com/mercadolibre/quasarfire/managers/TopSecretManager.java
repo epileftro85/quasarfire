@@ -1,25 +1,44 @@
 package com.mercadolibre.quasarfire.managers;
 
+import com.mercadolibre.quasarfire.dtos.CoordinatesDTO;
 import com.mercadolibre.quasarfire.dtos.SatelliteMessageDTO;
 import com.mercadolibre.quasarfire.dtos.TopSecretResponseDTO;
+import com.mercadolibre.quasarfire.exceptions.LoggerConsoleHandler;
+import com.mercadolibre.quasarfire.exceptions.ResourceNotFoundException;
+import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+@Component
 public class TopSecretManager {
+    private static final String failMessage = "We can't establish message or distances";
+    private static final Logger logger = Logger.getLogger(TopSecretManager.class.getName());
     private static final double[][] SATELLITE_POSITIONS = {
             { -500, -200 },  //  Kenobi
             { 100, -100 },   // Skywalker
             { 500, 100 }     // Sato
     };
 
-    public TopSecretResponseDTO saveMessage(List<SatelliteMessageDTO> messages) {
+    public TopSecretResponseDTO saveMessage(List<SatelliteMessageDTO> messages) throws ResourceNotFoundException {
         TopSecretResponseDTO response = new TopSecretResponseDTO();
-        String message = retrieveMessage(messages);
-        double[] messageDistances = getDistancesFromMessage(messages);
-        double[] coordinates = getLocation(messageDistances);
+        try {
+            String message = retrieveMessage(messages);
+            double[] messageDistances = getDistancesFromMessage(messages);
+            CoordinatesDTO coordinates = getLocation(messageDistances);
 
-        response.setMessage(message);
-        response.setCoordinates(coordinates);
+            response.setMessage(message);
+            response.setPosition(coordinates);
+        } catch (Exception e) {
+            logger.setLevel(Level.FINE);
+            logger.addHandler(new LoggerConsoleHandler());
+            logger.log(Level.INFO, failMessage);
+
+            throw new ResourceNotFoundException(failMessage);
+        }
 
         return response;
     }
@@ -48,20 +67,22 @@ public class TopSecretManager {
     }
 
     private String combineWord(List<SatelliteMessageDTO> satelliteMessage, int index) {
-        StringBuilder word = new StringBuilder();
+        StringBuilder messageBuilder = new StringBuilder();
+        Set<String> addedWords = new HashSet<>();
 
         for (SatelliteMessageDTO satellite : satelliteMessage) {
             String[] message = satellite.getMessage();
-            if (message != null && index < message.length && !message[index].isEmpty()) {
-                word.append(message[index]);
+            if (message != null && index < message.length && !message[index].isEmpty() && !addedWords.contains(message[index])) {
+                messageBuilder.append(message[index]);
+                addedWords.add(message[index]);
             }
         }
 
-        return word.toString();
+        return messageBuilder.toString();
     }
 
     public double[] getDistancesFromMessage(List<SatelliteMessageDTO> satelliteMessage) {
-        double[] distances = new double[2];
+        double[] distances = new double[3];
         int i = 0;
         for (SatelliteMessageDTO satellite: satelliteMessage) {
             distances[i] = satellite.getDistance();
@@ -70,7 +91,7 @@ public class TopSecretManager {
 
         return distances;
     }
-    public double[] getLocation(double[] distances) {
+    public CoordinatesDTO getLocation(double[] distances) {
         double d1 = distances[0];
         double d2 = distances[1];
         double d3 = distances[2];
@@ -78,8 +99,8 @@ public class TopSecretManager {
         return trilaterate(d1, d2, d3);
     }
 
-    private double[] trilaterate(double d1, double d2, double d3) {
-        double[] result = new double[2];
+    private CoordinatesDTO trilaterate(double d1, double d2, double d3) {
+        CoordinatesDTO result = new CoordinatesDTO();
 
         double x1 = SATELLITE_POSITIONS[0][0];
         double y1 = SATELLITE_POSITIONS[0][1];
@@ -98,8 +119,8 @@ public class TopSecretManager {
         double x = (firstMath * fourth - secondMath * second) / (fourth * first - second * third);
         double y = (firstMath * third - first * secondMath) / (second * third - first * fourth);
 
-        result[0] = x;
-        result[1] = y;
+        result.setX(x);
+        result.setY(y);
 
         return result;
     }
