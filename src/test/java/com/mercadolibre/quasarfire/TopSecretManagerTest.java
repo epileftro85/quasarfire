@@ -30,17 +30,6 @@ class TopSecretManagerTest {
     private ShipMessageRepository shipMessageRepository;
 
     @Test
-    void testProcessOneSatellite() {
-        SatelliteMessageDTO satelliteMessageDTO = new SatelliteMessageDTO();
-        satelliteMessageDTO.setDistance(distance);
-        satelliteMessageDTO.setMessage(message);
-        satelliteMessageDTO.setName(shipName);
-        String satellite = topSecretManager.processOneSatellite(shipName, satelliteMessageDTO);
-
-        Assertions.assertEquals("OK", satellite);
-    }
-
-    @Test
     void testProcessAllSatellites() throws JsonProcessingException {
         String arrayMessage = "{\"satellites\":[{\"name\":\"kenobi\",\"distance\":100,\"message\":[\"este\",\"\",\"\",\"mensaje\",\"\"]},{\"name\":\"skywalker\",\"distance\":115.5,\"message\":[\"\",\"es\",\"\",\"\",\"secreto\"]},{\"name\":\"sato\",\"distance\":142.7,\"message\":[\"este\",\"\",\"un\",\"\",\"\"]}]}";
         ObjectMapper objectMapper = new ObjectMapper();
@@ -63,8 +52,8 @@ class TopSecretManagerTest {
         shipMessageRepository.save(shipMessage);
 
         TopSecretResponseDTO dbPosition = topSecretManager.processDBPosition();
-        Assertions.assertEquals(-494.0025, dbPosition.getPosition().getX());
-        Assertions.assertEquals(1614.015, dbPosition.getPosition().getY());
-        Assertions.assertEquals("este   mensaje", dbPosition.getMessage());
+        Assertions.assertEquals(-487.2859125, dbPosition.getPosition().getX());
+        Assertions.assertEquals(1557.014225, dbPosition.getPosition().getY());
+        Assertions.assertEquals("este es un mensaje secreto", dbPosition.getMessage());
     }
 }

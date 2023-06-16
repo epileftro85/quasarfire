@@ -9,9 +9,11 @@ import java.util.Set;
 
 public class TopSecretUtil {
     private final double[][] satellitePositions;
+
     public TopSecretUtil(double[][] positions) {
         this.satellitePositions = positions;
     }
+
     public String retrieveMessage(List<SatelliteMessageDTO> satelliteData) {
         StringBuilder messageBuilder = new StringBuilder();
         int messageLength = getMessageLength(satelliteData);
@@ -60,7 +62,7 @@ public class TopSecretUtil {
     }
 
     public double[] getDistancesFromMessage(List<SatelliteMessageDTO> satelliteMessage) {
-        double[] distances = new double[3];
+        double[] distances = new double[satelliteMessage.size()];
         int i = 0;
         for (SatelliteMessageDTO satellite: satelliteMessage) {
             distances[i] = satellite.getDistance();
@@ -69,6 +71,7 @@ public class TopSecretUtil {
 
         return distances;
     }
+
     public CoordinatesDTO getLocation(double[] distances) {
         double d1 = distances[0];
         double d2 = distances[1];
