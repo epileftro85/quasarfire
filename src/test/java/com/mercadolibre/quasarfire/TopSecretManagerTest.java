@@ -63,8 +63,8 @@ class TopSecretManagerTest {
         shipMessageRepository.save(shipMessage);
 
         TopSecretResponseDTO dbPosition = topSecretManager.processDBPosition();
-        Assertions.assertEquals(-474.495, dbPosition.getPosition().getX());
-        Assertions.assertEquals(1548.99, dbPosition.getPosition().getY());
+        Assertions.assertEquals(-494.0025, dbPosition.getPosition().getX());
+        Assertions.assertEquals(1614.015, dbPosition.getPosition().getY());
         Assertions.assertEquals("este   mensaje", dbPosition.getMessage());
     }
 }

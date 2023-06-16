@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "550b6775-55ca-4dc5-a02c-b9e8933b4a37",
+		"name": "Quasar Fire Operation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15933126"
+	},
+	"item": [
+		{
+			"name": "Process all json",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"satellites\":[\n\t\t{\n\t\t\t\"name\": \"kenobi\",\n\t\t\t\"distance\": 100.0,\n\t\t\t\"message\": [\"este\", \"\", \"\", \"mensaje\", \"\"]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"skywalker\",\n\t\t\t\"distance\": 115.5,\n\t\t\t\"message\": [\"\", \"es\", \"\", \"\", \"secreto\"]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"sato\",\n\t\t\t\"distance\": 142.7,\n\t\t\t\"message\": [\"este\", \"\", \"un\", \"\", \"\"]\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/quasar-fire/topsecret",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"quasar-fire",
+						"topsecret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send one coordinate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n\t\t\t\"distance\": 102.0,\n\t\t\t\"message\": [\"este\", \"\", \"\", \"mensaje\", \"\"]\n\t\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/quasar-fire/topsecret_split/kenobi",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"quasar-fire",
+						"topsecret_split",
+						"kenobi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get positions from DB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/quasar-fire/topsecret/position",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"quasar-fire",
+						"topsecret",
+						"position"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
