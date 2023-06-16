@@ -28,8 +28,20 @@ public class TopSecretController {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
     public TopSecretResponseDTO topSecret(@RequestBody @Valid SatelliteDataDTO satelliteMessage) {
-        List<SatelliteMessageDTO> messages = Arrays.asList(satelliteMessage.getSatellites());
-        return topSecretManager.saveMessage(messages);
+        List<SatelliteMessageDTO> messages = satelliteMessage.getSatellites();
+        return topSecretManager.processAllSatellites(messages);
+    }
+
+    @PostMapping(value = "/topsecret_split/{satellite_name}")
+    public String topSecretSplit(
+            @PathVariable("satellite_name") String satelliteName,
+            @RequestBody SatelliteMessageDTO satelliteMessage
+    ) {
+        return topSecretManager.processOneSatellite(satelliteName, satelliteMessage);
+    }
+    @GetMapping("/topsecret/position")
+    public TopSecretResponseDTO topSecretPosition() {
+        return topSecretManager.processDBPosition();
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

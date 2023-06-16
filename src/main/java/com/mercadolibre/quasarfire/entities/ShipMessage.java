@@ -1,24 +1,26 @@
 package com.mercadolibre.quasarfire.entities;
 
+import com.mercadolibre.quasarfire.utils.StringArrayConverter;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-@Table
-public class SecretMessage {
+public class ShipMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer id;
-    private String message;
-    private Double lat;
-    private Double lng;
-    @CreatedDate
+
+    private String ship;
+    @Convert(converter = StringArrayConverter.class)
+    private String[] message;
+    private Double distance;
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
@@ -32,35 +34,35 @@ public class SecretMessage {
         this.id = id;
     }
 
-    public String getMessage() {
+    public String getShip() {
+        return ship;
+    }
+
+    public void setShip(String ship) {
+        this.ship = ship;
+    }
+
+    public String[] getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(String[] message) {
         this.message = message;
     }
 
-    public Double getLat() {
-        return lat;
+    public Double getDistance() {
+        return distance;
     }
 
-    public void setLat(Double lat) {
-        this.lat = lat;
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
-    public Double getLng() {
-        return lng;
-    }
-
-    public void setLng(Double lng) {
-        this.lng = lng;
-    }
-
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
