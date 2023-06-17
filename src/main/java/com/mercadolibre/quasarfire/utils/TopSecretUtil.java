@@ -2,11 +2,16 @@ package com.mercadolibre.quasarfire.utils;
 
 import com.mercadolibre.quasarfire.dtos.CoordinatesDTO;
 import com.mercadolibre.quasarfire.dtos.SatelliteMessageDTO;
+import com.mercadolibre.quasarfire.dtos.TopSecretResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Component
 public class TopSecretUtil {
     private final double[][] satellitePositions;
 
@@ -73,11 +78,22 @@ public class TopSecretUtil {
     }
 
     public CoordinatesDTO getLocation(double[] distances) {
-        double d1 = distances[0];
-        double d2 = distances[1];
-        double d3 = distances[2];
+        CoordinatesDTO response;
 
-        return trilaterate(d1, d2, d3);
+        if (distances.length == 1) {
+            CoordinatesDTO cords = new CoordinatesDTO();
+            cords.setY(0);
+            cords.setX(0);
+            response = cords;
+        } else {
+            double d1 = distances[0];
+            double d2 = distances[1];
+            double d3 = distances[2];
+
+            response = trilaterate(d1, d2, d3);
+        }
+
+        return response;
     }
 
     private CoordinatesDTO trilaterate(double d1, double d2, double d3) {

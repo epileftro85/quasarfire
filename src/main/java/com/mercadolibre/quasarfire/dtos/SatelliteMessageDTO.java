@@ -6,11 +6,10 @@ import jakarta.validation.constraints.Size;
 public class SatelliteMessageDTO {
     private String name;
 
-    @NotNull(message = "Distance is required")
     private Double distance;
-    @NotNull(message = "Message is required")
-    @Size(min = 1, message = "Message array must have at least one element")
     private String[] message;
+
+    public SatelliteMessageDTO() {}
 
     public String getName() {
         return name;

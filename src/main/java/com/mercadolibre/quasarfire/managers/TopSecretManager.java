@@ -1,6 +1,7 @@
 package com.mercadolibre.quasarfire.managers;
 
 import com.mercadolibre.quasarfire.mappers.SatelliteMessageMapper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import com.mercadolibre.quasarfire.dtos.CoordinatesDTO;
 import com.mercadolibre.quasarfire.dtos.SatelliteMessageDTO;
@@ -24,6 +25,9 @@ public class TopSecretManager {
 
     @Autowired
     private SatelliteMessageMapper satelliteMessageMapper;
+
+    @Autowired
+    private KafkaTemplate<String, TopSecretResponseDTO> kafkaTemplate;
 
     private final TopSecretUtil topSecretUtil;
 
@@ -52,6 +56,7 @@ public class TopSecretManager {
 
             response.setMessage(message);
             response.setPosition(coordinates);
+            kafkaTemplate.send("topsecrettopic", response);
         } catch (Exception e) {
             logger.setLevel(Level.FINE);
             logger.addHandler(new LoggerConsoleHandler());
