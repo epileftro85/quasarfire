@@ -1,8 +1,12 @@
 package com.mercadolibre.quasarfire.dtos;
 
-public class TopSecretResponseDTO {
+import java.io.Serializable;
+
+public class TopSecretResponseDTO implements Serializable {
     private CoordinatesDTO position;
     private String message;
+
+    public TopSecretResponseDTO() {}
 
     public CoordinatesDTO getPosition() {
         return position;

@@ -1,9 +1,10 @@
 package com.mercadolibre.quasarfire.dtos;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
-public class SatelliteMessageDTO {
+import java.io.Serializable;
+
+public class SatelliteMessageDTO implements Serializable {
     private String name;
 
     private Double distance;

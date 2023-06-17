@@ -9,7 +9,7 @@ In this repository you will find the code for Quasar Fire Operation, which recei
 
 ### Instructions
 
-- In a command line start the container
+- In a command line start the containers
   - > sh ./start.sh
 - In another console window or in the same run gradlew
   -  > ./gradlew bootRun
@@ -21,10 +21,7 @@ In this repository you will find the code for Quasar Fire Operation, which recei
 - In another console window or in the same run
   - > ./gradlew clean test
 
-### Postman Collection
-In order to test though postman, there is a collection in the root of the project called Postman-Collection.json.
-
-### Kafka
+## Bonus
 
 #### Sending messages
 In order to send a message just run the next command
@@ -33,3 +30,9 @@ In order to send a message just run the next command
 #### Receiving messages
 Listen to the topic **topsecrettopic**
 > kcat -b localhost:9092 -t topsecrettopic
+
+### Postman Collection
+In order to test though postman, there is a collection in the root of the project called Postman-Collection.json.
+
+### Infrastructure
+Whiting the project exists the diagram of the built infrastructure, the file is called QuasarProject.jpg

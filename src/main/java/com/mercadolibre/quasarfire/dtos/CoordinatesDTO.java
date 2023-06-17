@@ -1,8 +1,12 @@
 package com.mercadolibre.quasarfire.dtos;
 
-public class CoordinatesDTO {
+import java.io.Serializable;
+
+public class CoordinatesDTO implements Serializable {
     double x;
     double y;
+
+    public CoordinatesDTO() {}
 
     public double getX() {
         return x;

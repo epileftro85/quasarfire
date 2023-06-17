@@ -1,6 +1,7 @@
 package com.mercadolibre.quasarfire.managers;
 
 import com.mercadolibre.quasarfire.mappers.SatelliteMessageMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import com.mercadolibre.quasarfire.dtos.CoordinatesDTO;
@@ -68,6 +69,7 @@ public class TopSecretManager {
         return response;
     }
 
+    @Cacheable(cacheNames = "topsecretposition")
     public TopSecretResponseDTO processDBPosition() {
        Iterable<ShipMessage> dbShipMessages = shipMessageRepository.findAll();
        List<SatelliteMessageDTO> satelliteMessageDTOs = satelliteMessageMapper.fromDatabaseToList(dbShipMessages);
